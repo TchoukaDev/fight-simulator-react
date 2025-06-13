@@ -1,4 +1,5 @@
 export default function Button({
+  type = "button",
   value,
   classNameColors,
   onClickEvent,
@@ -6,6 +7,7 @@ export default function Button({
 }) {
   return (
     <button
+      type={type}
       onClick={onClickEvent}
       className={`btn ${classNameColors}`}
       disabled={disabled}

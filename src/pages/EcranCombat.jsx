@@ -3,20 +3,32 @@ import Button from "../components/Button";
 import { playerTurn, monsterTurn } from "../Js/Functions/fight.js";
 import Modale from "../components/Modal.jsx";
 import { lancerConfettis } from "../Js/Functions/utilities.js";
+import { useAppContext } from "../context/app-context.jsx";
 
-export default function EcranCombat({
-  fightingCharacter,
-  fightingMonster,
-  returnToMonster,
-  onRestart,
-}) {
+export default function EcranCombat() {
+  const {
+    mainCharacter,
+    monstreChosen,
+    returnToScreen,
+    restartGame,
+    resetCharacter,
+  } = useAppContext();
   // States
-  const [Character, setCharacter] = useState(fightingCharacter);
-  const [Monster, setMonster] = useState(fightingMonster);
+  const [Character, setCharacter] = useState(mainCharacter);
+  console.log(mainCharacter);
+  const [Monster, setMonster] = useState(monstreChosen);
   const [fightingState, setFightingState] = useState([]);
   const [disabled, setDisabled] = useState(false);
   const [counter, setCounter] = useState(1);
   const [showModale, setShowModale] = useState(false);
+
+  useEffect(() => {
+    setCharacter(mainCharacter);
+  }, [mainCharacter]);
+
+  useEffect(() => {
+    setMonster(monstreChosen);
+  }, [monstreChosen]);
 
   // Functions
   const disableButtons = () => {
@@ -95,7 +107,9 @@ export default function EcranCombat({
           <Button
             classNameColors="btn-black"
             value="Choisir un autre adversaire"
-            onClickEvent={returnToMonster}
+            onClickEvent={() => {
+              returnToScreen("monstres"), resetCharacter();
+            }}
           />
         </div>
         <div className="flex justify-evenly lg:gap-15">
@@ -214,7 +228,7 @@ export default function EcranCombat({
               <p className="mt-5">Félicitations, vous avez gagné!</p>
             </>
           }
-          onRestart={onRestart}
+          onRestart={() => restartGame()}
         />
       )}
       {showModale === "loose" && (
@@ -225,7 +239,7 @@ export default function EcranCombat({
               <p className="mt-5">Dommage, vous avez perdu.</p>
             </>
           }
-          onRestart={onRestart}
+          onRestart={() => restartGame()}
         />
       )}
     </>

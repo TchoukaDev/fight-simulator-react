@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "../components/Button.jsx";
+import { useAppContext } from "../context/app-context.jsx";
 
-export default function EcranPseudo({ getPseudo, pseudoValidation }) {
+export default function EcranPseudo() {
+  const { setPseudo, setEcran } = useAppContext();
   const pseudoRef = useRef();
   const [error, setError] = useState(false);
 
@@ -11,7 +13,8 @@ export default function EcranPseudo({ getPseudo, pseudoValidation }) {
       setError(true);
     } else {
       setError(false);
-      getPseudo(pseudoValue);
+      setPseudo(pseudoValue);
+      setEcran("personnages");
     }
   };
 
@@ -27,7 +30,6 @@ export default function EcranPseudo({ getPseudo, pseudoValidation }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          pseudoValidation();
           savePseudo();
         }}
       >
@@ -46,7 +48,7 @@ export default function EcranPseudo({ getPseudo, pseudoValidation }) {
           />
         </p>
         <p>
-          <Button classNameColors="btn-gray" value="Valider" />
+          <Button type="submit" classNameColors="btn-gray" value="Valider" />
         </p>
         {error && (
           <p className="text-center text-red-700">Veuillez saisir un pseudo.</p>

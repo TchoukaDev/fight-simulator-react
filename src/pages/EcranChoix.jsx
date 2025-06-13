@@ -6,12 +6,8 @@ export default function EcranChoix({
   returnFunction,
   returnBtnText,
   charactersArray,
-  onCharacterChosen,
+  handlerSetCharacter,
 }) {
-  //Handler pour l'élément cliqué
-  const characterClickedHandler = (character) => {
-    onCharacterChosen(character);
-  };
   return (
     <>
       <div className="containerChoix">{title}</div>
@@ -27,8 +23,8 @@ export default function EcranChoix({
           {charactersArray.map((character) => (
             <CharacterCard
               key={character.image}
-              characterClicked={characterClickedHandler}
-              personnageStats={character}
+              character={character}
+              onSelect={handlerSetCharacter}
             />
           ))}
         </div>
